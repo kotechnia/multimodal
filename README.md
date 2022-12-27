@@ -19,20 +19,6 @@ cuDnn 8.2.0
 ```
 <br>
 
-❏ 사용 라이브러리 및 프로그램입니다.
-```bash
-# 공통
-pip install -r requirements.txt
-
-# Mask2Former
-pip install -e detectron2
-pip install -e panopticapi
-
-cd mask2former/modeling/pixel_decoder/ops
-bash make.sh
-cd -
-```
-<br>
 
 ❏ 각 모델 별 설명입니다.
 
@@ -75,14 +61,16 @@ config : configs/multimodal/config_multimodal.yaml
 └─ 📄train_net_video.py
 ```
 <br>
-❏ 사용 라이브러리 및 프로그램입니다.
+❏ 사용 라이브러리 및 프로그램입니다.  
 **detectron2**
+
 ```
 $ git clone https://github.com/facebookresearch/detectron2.git
 $ cd detectron2
 $ pip install -e .
 $ cd -
 ```
+
 ```
 $ sed -i s/"int(ann\\['image_id'\\])"/"ann['image_id']"/g 
 ```
