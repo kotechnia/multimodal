@@ -61,7 +61,8 @@ config : configs/multimodal/config_multimodal.yaml
 └─ 📄train_net_video.py
 ```
 <br>
-❏ 사용 라이브러리 및 프로그램입니다.  
+❏ 사용 라이브러리 및 프로그램입니다. 
+<br> 
 **detectron2**
 
 ```
