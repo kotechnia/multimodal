@@ -173,18 +173,44 @@ python preprocess/preprocess_features.py \
 ```
 
 ❏ annotation 전처리 방법입니다.
+한글
+```bash
+# config file => train.word_dim: 768
+# huggingface의 transformers 모듈에 맞는 tokenizer
+# => default: 'monologg/koelectra-base-v3-discriminator' 
+# tokenizer 변경 시, 그에 맞게 glove_pt도 변경 필요
+```
+
+```bash
+python preprocess/preprocess_questions.py \
+--dataset multimodal \
+--glove_pt data/glove/glove.768d.ko.pkl \   
+--question_type action \
+--token_type transformers \                 
+--tokenizer tokenizer/my_tokenizer \
+--by_video y \
+--annot_json data/multimodal/annotation/QNA.json \
+--split_list data/multimodal/annotation/common_dataset_split.json \
+--lang ko \
+--mode train
+```
+영문
+```bash
+# config file => train.word_dim: 300
+import nltk
+nltk.download('punkt')
+```
 ```bash
 python preprocess/preprocess_questions.py \
 --dataset multimodal \
 --glove_pt data/glove/glove.840.300d.pkl \
 --question_type action \
---token_type transformers \
---tokenizer tokenizer/my_tokenizer \
 --by_video y \
+--annot_json data/multimodal/annotation/QNA.json \
+--split_list data/multimodal/annotation/common_dataset_split.json \
+--lang en \
 --mode train
-
 ```
-
 
 ### 실행 방법 (예시)
 
