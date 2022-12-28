@@ -60,6 +60,8 @@ config : configs/multimodal/config_multimodal.yaml
 <br>
 ❏ 사용 라이브러리 및 프로그램입니다. 
 <br> 
+
+
 **detectron2**
 
 ```
