@@ -19,7 +19,7 @@ cuDnn 8.2.0
 
 ❏ 각 모델 별 설명입니다.
 
-<b> Mask2Former</b>
+## Mask2Former
 
 model : Mask2Former  
 config : configs/multimodal/config_multimodal.yaml
@@ -122,7 +122,7 @@ OUTPUT_DIR ./<output_dir name>
 ---
 ---
 
-<b>HCRN</b>
+## HCRN
 
 
 model : HCRN  
