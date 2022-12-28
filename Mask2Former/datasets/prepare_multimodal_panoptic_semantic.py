@@ -21,7 +21,9 @@ def _process_panoptic_to_semantic(input_panoptic, output_semantic, segments, id_
     panoptic = np.asarray(Image.open(input_panoptic), dtype=np.uint32)
     
     if len(panoptic.shape) != 3 and len(np.unique(panoptic)) == 1:
-        panoptic = np.full((1920,1080,3),3, dtype=np.uint32)
+        png_name = os.path.basename(input_panoptic)
+        return png_name
+#        panoptic = np.full((1920,1080,3),3, dtype=np.uint32)
 
     panoptic = rgb2id(panoptic)
     output = np.zeros_like(panoptic, dtype=np.uint8) + 255
@@ -30,9 +32,10 @@ def _process_panoptic_to_semantic(input_panoptic, output_semantic, segments, id_
         new_cat_id = id_map[cat_id]
         output[panoptic == seg["id"]] = new_cat_id
     Image.fromarray(output).save(output_semantic)
+    return "1"
 
 
-def separate_coco_semantic_from_panoptic(panoptic_json, panoptic_root, sem_seg_root, categories):
+def separate_coco_semantic_from_panoptic(panoptic_json, panoptic_root, sem_seg_root, categories, del_solid_color):
     """
     Create semantic segmentation annotations from panoptic segmentation
     annotations, to be used by PanopticFPN.
@@ -54,7 +57,6 @@ def separate_coco_semantic_from_panoptic(panoptic_json, panoptic_root, sem_seg_r
         id_map[k["id"]] = i
     # what is id = 0?
     # id_map[0] = 255
-    print(id_map)
 
     with open(panoptic_json, encoding='utf-8-sig') as f:
         obj = json.load(f)
@@ -74,11 +76,18 @@ def separate_coco_semantic_from_panoptic(panoptic_json, panoptic_root, sem_seg_r
 
     print("Start writing to {} ...".format(sem_seg_root))
     start = time.time()
-    pool.starmap(
+    error_file = pool.starmap(
         functools.partial(_process_panoptic_to_semantic, id_map=id_map),
         iter_annotations(),
         chunksize=100,
     )
+    if len(np.unique(error_file)) != 1 and del_solid_color:
+        print(np.unique(error_file))
+        obj['annotations'] = [ ann for ann in obj['annotations'] if ann['file_name'] not in error_file]
+        error_file = [name.replace('png', 'jpg') for name in error_file]
+        obj['images'] = [ img for img in obj['images'] if img['file_Name'] not in error_file]
+
+        json.dump(obj, open(panoptic_json, 'w'), indent=4)
     print("Finished. time: {:.2f}s".format(time.time() - start))
 
 
@@ -125,9 +134,13 @@ if __name__ == "__main__":
         split_dataset(dataset_dir, COCO_CATEGORIES)
 
     for s in ["test","val", "train"]:
+        if s!='train': del_solid_color = True
+        else: del_solid_color = False
+
         separate_coco_semantic_from_panoptic(
             os.path.join(dataset_dir, "annotations/panoptic_{}.json".format(s)),
             os.path.join(dataset_dir, "panoptic_{}".format(s)),
             os.path.join(dataset_dir, "panoptic_semseg_{}".format(s)),
             COCO_CATEGORIES,
+            del_solid_color,
         )
