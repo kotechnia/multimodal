@@ -1,11 +1,8 @@
 # multimodal
 
 ## Index
-- [Test System Specifications](#❏-테스트-시스템-사양은-다음과-같습니다.)
-- [Prepare Environment](#❏-사용-라이브러리-및-프로그램입니다.)
-- [Description by Model](#❏-각-모델-별-설명입니다.)
-	- [Mask2Former](#<b>Mask2Former</b>) - Panoptic Segmentation model
-	- [HCRN](#<b>HCRN</b>)  - QnA model
+- Mask2Former - Panoptic Segmentation model
+- HCRN  - QnA model
 
 ## Contents
 
@@ -89,8 +86,12 @@ $ cd -
 $ cd mask2former
 $ pip install -r requirements.txt
 ```
+### 데이터 전처리 방법 (예시)
+```bash
+python datasets/prepare_multimodal_panoptic_semantic.py --make_dataset y
+```
 
-# 실행 방법 (예시)
+### 실행 방법 (예시)
 
 ❏ 훈련 방법입니다.
 ```
@@ -108,9 +109,10 @@ python train_net.py  \
 --num-gpus 2 \
 --eval-only \
 MODEL.WEIGHTS <output_dir name>/checkpoint_file \
-DATASETS.EVAl <dataset_name>   # multimodal_2022_test_dataset
+DATASETS.EVAl <dataset_name>   # multimodal_2022_test_dataset \ 
+OUTPUT_DIR ./<output_dir name>
 ```
-
+<br>
 <details>
     <summary>❏  original github & paper</summary>
     <p>github : <a href='https://github.com/facebookresearch/Mask2Former'>Mask2Former</a>
@@ -173,7 +175,10 @@ python preprocess/preprocess_features.py \
 ```
 
 ❏ annotation 전처리 방법입니다.
-한글
+<br>
+
+
+**한글**
 ```bash
 # config file => train.word_dim: 768
 # huggingface의 transformers 모듈에 맞는 tokenizer
@@ -194,7 +199,9 @@ python preprocess/preprocess_questions.py \
 --lang ko \
 --mode train
 ```
-영문
+
+
+**영문**
 ```bash
 # config file => train.word_dim: 300
 import nltk
@@ -223,7 +230,7 @@ python train.py --cfg configs/multimodal_qa_action.yml
 ```bash
 python validate.py --cfg configs/multimodal_qa_action.yml
 ```
-
+<br>
 <details>
     <summary>❏  original github & paper</b></summary>
     <p>github : <a href='https://github.com/thaolmk54/hcrn-videoqa'>HCRN</a>
