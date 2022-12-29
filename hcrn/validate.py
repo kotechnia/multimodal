@@ -179,7 +179,7 @@ if __name__ == '__main__':
                 zip(np.hstack(v_ids).tolist(), np.hstack(q_ids).tolist(), gts, preds)]
             # write preditions to json file
             with open(preds_file, 'w') as f:
-                json.dump(instances, f)
+                json.dump(instances, f, indent=4, ensure_ascii=False)
 
             if cfg.test.print_sample_preds:
                 sys.stdout.write('Display 10 samples...\n')
@@ -214,7 +214,7 @@ if __name__ == '__main__':
                 zip(np.hstack(v_ids).tolist(), np.hstack(q_ids).tolist(), gts, preds)]
             # write preditions to json file
             with open(preds_file, 'w') as f:
-                json.dump(instances, f)
+                json.dump(instances, f, indent=4, ensure_ascii=False)
             sys.stdout.write('Display 10 samples...\n')
             # Display 10 examples
             for idx in range(10):
