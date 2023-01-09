@@ -28,6 +28,23 @@ def load_video_paths(args):
 
     return input_paths
 
+def load_video_paths_multimodal(args):
+    input_paths = []
+    annotation = pd.read_csv(args.annotation_file.format(args.question_type), delimiter='\t')
+    gif_names = pd.DataFrame(args.video_path, columns=['gif_abs_path'])
+    gif_names['gif_name'] = gif_names['gif_abs_path'].map(lambda x: os.path.basename(x)) 
+
+    df = pd.merge(gif_names, annotation, on='gif_name', how='right')
+    print("Number of questions: {}".format(len(annotation)))
+    for path, key in df[['gif_abs_path', 'key']].to_numpy():
+        #gif_abs_path = os.path.join(args.video_dir, ''.join([gif, '.gif']))
+        input_paths.append((path, key))
+    input_paths = list(set(input_paths))
+    print("Number of unique videos: {}".format(len(input_paths)))
+
+    return input_paths
+
+
 
 def openeded_encoding_data(args, vocab, questions, video_names, video_ids, answers, mode='train'):
     ''' Encode question tokens'''

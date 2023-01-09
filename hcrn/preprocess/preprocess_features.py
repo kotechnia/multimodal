@@ -9,6 +9,7 @@ from torch import nn
 import torchvision
 import random
 import numpy as np
+from glob import glob
 
 from models import resnext
 from datautils import utils
@@ -204,6 +205,8 @@ if __name__ == '__main__':
     # dataset info
     parser.add_argument('--dataset', default='tgif-qa', choices=['tgif-qa', 'msvd-qa', 'msrvtt-qa', 'multimodal'], type=str)
     parser.add_argument('--question_type', default='none', choices=['frameqa', 'count', 'transition', 'action', 'none'], type=str)
+    parser.add_argument('--video_path', type=str)
+
     # output
     parser.add_argument('--out', dest='outfile',
                         help='output filepath',
@@ -216,6 +219,8 @@ if __name__ == '__main__':
     # network params
     parser.add_argument('--model', default='resnet101', choices=['resnet101', 'resnext101'], type=str)
     parser.add_argument('--seed', default='666', type=int, help='random seed')
+
+
     args = parser.parse_args()
     if args.model == 'resnet101':
         args.feature_type = 'appearance'
@@ -273,7 +278,11 @@ if __name__ == '__main__':
         args.annotation_file = 'data/multimodal/annotation/annotation.csv'
         args.video_dir = 'data/multimodal/video/'
         args.outfile = 'data/multimodal/features/{}/{}/{}_{}_{}_feat.h5'
-        video_paths = tgif_qa.load_video_paths(args)
+        if args.video_path :
+            args.video_path = list(set(glob(args.video_path+'/**/**/**.mp4', recursive=True) ))
+            video_paths = tgif_qa.load_video_paths_multimodal(args)
+        else:
+            video_paths = tgif_qa.load_video_paths(args)
 
         if args.model == 'resnet101':
             model = build_resnet()
