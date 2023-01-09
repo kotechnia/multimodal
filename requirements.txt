@@ -1,7 +1,23 @@
 torch==1.9.0+cu111
 torchvision==0.10.0+cu111
 opencv-python
-
+cython
+scipy
+shapely
+timm
+h5py
+submitit
+scikit-image
+easydict
+h5py
+nltk
+numpy
+Pillow
+tqdm
+termcolor
+pyyaml
+pandas
+transformers
 
 --find-links https://download.pytorch.org/whl/torch_stable.html
   
