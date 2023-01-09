@@ -84,7 +84,7 @@ def get_metadata():
     return meta
 
 
-def load_panoptic_json(json_file, image_dir, gt_dir, semseg_dir, meta):
+def load_panoptic_json(json_file, image_dir, gt_dir, semseg_dir, meta, is_semseg):
     """
     Args:
         image_dir (str): path to the raw dataset. e.g., "~/coco/train2017".
@@ -123,15 +123,25 @@ def load_panoptic_json(json_file, image_dir, gt_dir, semseg_dir, meta):
         label_file = os.path.join(gt_dir, ann["file_name"])
         sem_label_file = os.path.join(semseg_dir, ann["file_name"])
         segments_info = [_convert_category_id(x, meta) for x in ann["segments_info"]]
-        ret.append(
-            {
-                "file_name": image_file,
-                "image_id": image_id,
-                "pan_seg_file_name": label_file,
-                "sem_seg_file_name": sem_label_file,
-                "segments_info": segments_info,
-            }
-        )
+        if is_semseg:
+            ret.append(
+                {
+                    "file_name": image_file,
+                    "image_id": image_id,
+                    "pan_seg_file_name": label_file,
+                    "sem_seg_file_name": sem_label_file,
+                    "segments_info": segments_info,
+                }
+            )
+        else:
+            ret.append(
+                {
+                    "file_name": image_file,
+                    "image_id": image_id,
+                    "pan_seg_file_name": label_file,
+                    "segments_info": segments_info,
+                }
+            )
     assert len(ret), f"No images found in {image_dir}!"
     assert PathManager.isfile(ret[0]["file_name"]), ret[0]["file_name"]
     assert PathManager.isfile(ret[0]["pan_seg_file_name"]), ret[0]["pan_seg_file_name"]
@@ -145,11 +155,10 @@ def register_panoptic_annos_sem_seg(
     panoptic_name = name
     DatasetCatalog.register(
         panoptic_name,
-        lambda: load_panoptic_json(panoptic_json, image_root, panoptic_root, sem_seg_root, metadata),
+        lambda: load_panoptic_json(panoptic_json, image_root, panoptic_root, sem_seg_root, metadata, False),
     )
 
     MetadataCatalog.get(panoptic_name).set(
-        sem_seg_root=sem_seg_root,
         panoptic_root=panoptic_root,
         image_root=image_root,
         panoptic_json=panoptic_json,
@@ -173,7 +182,7 @@ def register_panoptic_annos_sem_seg(
 
     DatasetCatalog.register(
         semantic_name,
-        lambda: load_panoptic_json(panoptic_json, image_root, panoptic_root, sem_seg_root, metadata),
+        lambda: load_panoptic_json(panoptic_json, image_root, panoptic_root, sem_seg_root, metadata, True),
     )
     MetadataCatalog.get(semantic_name).set(
         sem_seg_root=sem_seg_root,

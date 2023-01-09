@@ -82,7 +82,7 @@ def separate_coco_semantic_from_panoptic(panoptic_json, panoptic_root, sem_seg_r
         chunksize=100,
     )
     if len(np.unique(error_file)) != 1 and del_solid_color:
-        print(np.unique(error_file))
+        #print(np.unique(error_file))
         obj['annotations'] = [ ann for ann in obj['annotations'] if ann['file_name'] not in error_file]
         error_file = [name.replace('png', 'jpg') for name in error_file]
         obj['images'] = [ img for img in obj['images'] if img['file_Name'] not in error_file]
@@ -91,10 +91,8 @@ def separate_coco_semantic_from_panoptic(panoptic_json, panoptic_root, sem_seg_r
     print("Finished. time: {:.2f}s".format(time.time() - start))
 
 
-def split_dataset(root, categories):
+def split_dataset(root, json_file, split_file, categories):
     root = os.path.join(root, 'annotations')
-    json_file = os.path.join(root, 'segmentation_data.json' )
-    split_file = os.path.join(root, 'common_dataset_split.json')
 
     if not (os.path.exists(json_file) and os.path.exists(split_file)):
         return None
@@ -102,7 +100,7 @@ def split_dataset(root, categories):
     json_data = json.load(open(json_file))
     video_keys = [video['video_id'] for video in json_data]
     split_list = json.load(open(split_file))
-    split_list = {key : [video_keys.index(v_id) for v_id in value] for key, value in split_list.items()}
+    split_list = {key : [video_keys.index(v_id) for v_id in value if v_id in video_keys] for key, value in split_list.items()}
 
     for mode in ['train', 'validation', 'test']:
         tmp_data = np.array(json_data)[split_list[mode]]
@@ -122,25 +120,31 @@ def split_dataset(root, categories):
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--make_dataset', choices=['y', 'n'], default='n')
+    parser.add_argument('--annotation_path',type=str)
+    parser.add_argument('--split_list', type=str)
+    parser.add_argument('--category_json', type=str)
     args = parser.parse_args()
 
+    assert (args.annotation_path==None and args.split_list==None ) or (args.annotation_path!=None and args.split_list!=None)
 
     dataset_dir = os.path.join(os.getenv("DETECTRON2_DATASETS", "datasets"), "multimodal")
-    COCO_CATEGORIES = json.load(open(os.path.join(dataset_dir, 'annotations/categories.json'), encoding='utf-8-sig'))
+    if args.category_json:
+        COCO_CATEGORIES = json.load(open(args.category_json))
+    else:
+        COCO_CATEGORIES = json.load(open(os.path.join(dataset_dir, 'annotations/categories.json')))
 
-    
-    if args.make_dataset == 'y':
-        split_dataset(dataset_dir, COCO_CATEGORIES)
+    if args.annotation_path:
+        split_dataset(dataset_dir, args.annotation_path, args.split_list, COCO_CATEGORIES)
 
-    for s in ["test","val", "train"]:
-        if s!='train': del_solid_color = True
-        else: del_solid_color = False
 
-        separate_coco_semantic_from_panoptic(
-            os.path.join(dataset_dir, "annotations/panoptic_{}.json".format(s)),
-            os.path.join(dataset_dir, "panoptic_{}".format(s)),
-            os.path.join(dataset_dir, "panoptic_semseg_{}".format(s)),
-            COCO_CATEGORIES,
-            del_solid_color,
-        )
+#    for s in ["test","val", "train"]:
+#        if s!='train': del_solid_color = True
+#        else: del_solid_color = False
+#
+#        separate_coco_semantic_from_panoptic(
+#            os.path.join(dataset_dir, "annotations/panoptic_{}.json".format(s)),
+#            os.path.join(dataset_dir, "panoptic_{}".format(s)),
+#            os.path.join(dataset_dir, "panoptic_semseg_{}".format(s)),
+#            COCO_CATEGORIES,
+#            del_solid_color,
+#        )
