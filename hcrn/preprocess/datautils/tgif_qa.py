@@ -377,16 +377,16 @@ def process_questions_mulchoices(args):
                                   val_ans_candidates, tokenizer=tokenizer, mode='val')
 
         else:
-            if args.split_list:
-                split_list = json.load(open(args.split_list))
+            if 'mode' in csv_data.columns:
+                split_list = {mode : list(csv_data[csv_data['mode']==mode]['key'].unique()) for mode in ['train','validation','test']} 
             else:
-                unique_video_name = np.unique(video_names)
-                random.shuffle(unique_video_name)
-                split = int(0.8 * len(unique_video_name)), int(0.9 * len(unique_video_name))
+                unique_video_ids = np.unique(video_ids)
+                random.shuffle(unique_video_ids)
+                split = int(0.8 * len(unique_video_ids)), int(0.9 * len(unique_video_ids))
                 split_list = {
-                        'train': unique_video_name[:split[0]],
-                        'validation': unique_video_name[split[0]:split[1]],
-                        'test': unique_video_name[:split[1]]
+                        'train': unique_video_ids[:split[0]],
+                        'validation': unique_video_ids[split[0]:split[1]],
+                        'test': unique_video_ids[:split[1]]
                         }
                 del split
             
