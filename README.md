@@ -17,6 +17,19 @@ cuDnn 8.2.0
 <br>
 
 
+## Common
+> Mask2Former와 HCRN에서 공통의 훈련, 검증, 시험 세트를 생성합니다.
+```bash
+python prepare.py \
+--video_path data/videos \
+--segmentation_path data/annotations/segmentation_data.json \
+--qna_path data/annotations/QNA_data.json \
+--common_split_list common_split_list.json
+```
+
+
+
+
 ❏ 각 모델 별 설명입니다.
 
 ## Mask2Former
@@ -87,10 +100,17 @@ $ cd -
 ```
 $ cd mask2former
 $ pip install -r requirements.txt
+
+
 ```
 ### 데이터 전처리 방법 (예시)
 ```bash
-python datasets/prepare_multimodal_panoptic_semantic.py --make_dataset y
+source prepare_multimodal_dataset.sh \
+../data/videos/video_frames \
+../data/annotations/labels \
+../data/annotations/segmentation_data.json \
+../data/annotations/categories.json \
+../common_dataset_list.json
 ```
 
 ### 실행 방법 (예시)
@@ -162,14 +182,16 @@ config : configs/multimodal_qa_action.yml
 
 ❏ 비디오 전처리 방법입니다.
 ```bash
-python preprocess/preprocess_features.py \
+$ python preprocess/preprocess_features.py \
 --gpu_id 0 \
 --dataset multimodal \
+--video_path ../data/videos \
 --model resnet101 \
 --question_type action
 
-python preprocess/preprocess_features.py \
+$ python preprocess/preprocess_features.py \
 --dataset multimodal \
+--video_path ../data/videos \
 --model resnext101 \
 --image_height 112 \
 --image_width 112 \
@@ -189,16 +211,17 @@ python preprocess/preprocess_features.py \
 ```
 
 ```bash
+$ python preprocess/make_datasets.py \
+--annot_json ../data/annotations/QNA_data.json \
+--split_list ../common_split_list.json \
+--lang ko
+
 python preprocess/preprocess_questions.py \
 --dataset multimodal \
---glove_pt data/glove/glove.768d.ko.pkl \   
+--glove_pt data/glove/glove.768d.ko.pkl \
 --question_type action \
---token_type transformers \                 
---tokenizer tokenizer/my_tokenizer \
+--token_type transformers \
 --by_video y \
---annot_json data/multimodal/annotation/QNA.json \
---split_list data/multimodal/annotation/common_dataset_split.json \
---lang ko \
 --mode train
 ```
 
@@ -210,14 +233,17 @@ import nltk
 nltk.download('punkt')
 ```
 ```bash
-python preprocess/preprocess_questions.py \
+$ python preprocess/make_datasets.py \
+--annot_json ../data/annotations/QNA_data.json \
+--split_list ../common_split_list.json \
+--lang en
+
+$ python preprocess/preprocess_questions.py \
 --dataset multimodal \
 --glove_pt data/glove/glove.840.300d.pkl \
 --question_type action \
+--token_type transformers \
 --by_video y \
---annot_json data/multimodal/annotation/QNA.json \
---split_list data/multimodal/annotation/common_dataset_split.json \
---lang en \
 --mode train
 ```
 
@@ -225,12 +251,12 @@ python preprocess/preprocess_questions.py \
 
 ❏ 훈련 방법입니다.
 ```bash
-python train.py --cfg configs/multimodal_qa_action.yml
+python train.py --cfg configs/multimodal_qa_action_ko.yml
 ```
 
 ❏ 평가 방법입니다.
 ```bash
-python validate.py --cfg configs/multimodal_qa_action.yml
+python validate.py --cfg configs/multimodal_qa_action_ko.yml
 ```
 <br>
 <details>

@@ -25,7 +25,6 @@ def main(args):
     df_videos['video_name'] = df_videos['video_path'].map(get_name)
     df_segmentation_data = pd.DataFrame(json.load(open(segmentation_path)))
     df_qna_data = pd.DataFrame(json.load(open(qna_path)))
-
     df_common_dataset = pd.merge(df_videos, df_segmentation_data, on=['video_name'])
     df_common_dataset = pd.merge(df_common_dataset, df_qna_data, on=['video_id'])
 
@@ -47,7 +46,7 @@ def main(args):
 if __name__=='__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--video_path',type=str, required=True)
-    parser.add_argument('--label_path', type=str, required=True)
+    parser.add_argument('--label_path', type=str, default=None)
     parser.add_argument('--segmentation_path', type=str, default=None)
     parser.add_argument('--qna_path', type=str, default=None)
     parser.add_argument('--common_split_list', type=str, default='common_dataset_list.json')

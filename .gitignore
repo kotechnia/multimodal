@@ -5,6 +5,7 @@ panopticapi
 detectron2
 
 #
+data/
 
 **/**/**.log
 Mask2Former/swin_large_patch4_window12_384_22k.pkl
@@ -16,3 +17,4 @@ hcrn/preprocess/pretrained/resnext-101-kinetics.pth
 hcrn/data/glove/*.pkl
 hcrn/data/multimodal/*
 hcrn/results_*
+
