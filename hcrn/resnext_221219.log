@@ -1,21 +1,0 @@
-Script started on 2022-12-19 13:33:23+09:00 [TERM="screen" TTY="/dev/pts/3" COLUMNS="146" LINES="42"]
-# bash
-root@nia2022_1-1_docker:~/nia2022_1/hcrn# [20P(reverse-i-search)`':[Cp': pip listy': python validate.py --cfg configs/multimodal_qa_action.yml [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1@t[C[C[C[1@h[C[C[C[1@o[C[C[C[1@n[C[C[C[1@ [C[C[Cp': python preprocess/preprocess_questions.py --dataset multimodal --glove_pt data/glove/glove.768d.ko.pkl --question_type action --token_type transformers --mode train --by_video yMr': python preprocess/preprocess_questions.py --dataset multimodal --glove_pt data/glove/glove.768d.ko.pkl --question_ty[1@pM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ce': python preprocess/preprocess_questions.py --dataset multimodal --glove_pt data/glove/glove.768d.ko.pkl --question_t[1@yM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cfeatures.py --dataset multimodal --model resnext101 --question_type action --image_hei[36Pght 112 --image_width 112 M[C[C[C[C[Croot@nia2022_1-1_docker:~/nia2022_1/hcrn# python preprocess/preprocess_features.py --dataset multimodal --model resnext101 --question_type action -[10@-image_heiM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C
-
-Number of questions: 83655
-Number of unique videos: 4183
-preprocess/preprocess_features.py:118: DeprecationWarning: BICUBIC is deprecated and will be removed in Pillow 10 (2023-07-01). Use Resampling.BICUBIC instead.
-  img = np.array(img.resize(size=img_size, resample=Image.BICUBIC) )
-preprocess/preprocess_features.py:188: DeprecationWarning: `np.int` is a deprecated alias for the builtin `int`. To silence this warning, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
-Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
-  video_ids_dset = fd.create_dataset('ids', shape=(dataset_size,), dtype=np.int)
-1/4183 5.386s (projected finish: 6.26 hours)
-1001/4183 2.840s (projected finish: 2.51 hours)
-2001/4183 2.824s (projected finish: 1.71 hours)
-3001/4183 2.824s (projected finish: 0.93 hours)
-4001/4183 2.822s (projected finish: 0.14 hours)
-root@nia2022_1-1_docker:~/nia2022_1/hcrn# [20P(reverse-i-search)`':[C^C
-root@nia2022_1-1_docker:~/nia2022_1/hcrn# exit
-# 
-
-Script done on 2022-12-19 16:51:27+09:00 [COMMAND_EXIT_CODE="130"]

@@ -31,7 +31,7 @@ def make_answer(json_file):
     return df
     
 
-def make_answer_df(json_file, split_json, lang):
+def make_answer_df(data, split_json, lang):
     split_list = json.load(open(split_json))
 
     alls = []
@@ -41,7 +41,7 @@ def make_answer_df(json_file, split_json, lang):
         choice = ['Yes', 'No']
 
     for mode in ['train','validation','test']:
-        df_t = df[df.video_id.isin(split_list[mode])]
+        df_t = data[data.video_id.isin(split_list[mode])]
 
         answers = df_t[f'answer_{lang}'].unique()
 

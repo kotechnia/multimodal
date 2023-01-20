@@ -1,22 +1,0 @@
-Script started on 2022-12-19 13:32:45+09:00 [TERM="screen" TTY="/dev/pts/2" COLUMNS="146" LINES="42"]
-# bash
-root@nia2022_1-1_docker:~/nia2022_1/hcrn# lscd data/ls[Klpip listtree . -L 2[3Ppip listll[Kscd data/ls[K[K[20P(reverse-i-search)`':[Cp': pip listy': python validate.py --cfg configs/multimodal_qa_action.yml [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1@t[C[C[C[1@h[C[C[C[1@o[C[C[C[1@n[C[C[C[1@ [C[C[Cp': python preprocess/preprocess_questions.py --dataset multimodal --glove_pt data/glove/glove.768d.ko.pkl --question_type action --token_type transformers --mode train --by_video yMr': python preprocess/preprocess_questions.py --dataset multimodal --glove_pt data/glove/glove.768d.ko.pkl --question_ty[1@pM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ce': python preprocess/preprocess_questions.py --dataset multimodal --glove_pt data/glove/glove.768d.ko.pkl --question_t[1@yM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cfeatures.py --dataset multimodal --model resnext101 --question_type action --image_hei[36Pght 112 --image_width 112 M[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cgpu_id 0 --dataset multimodal --model resnet101 --question_type action  [KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Croot@nia2022_1-1_docker:~/nia2022_1/hcrn# python preprocess/preprocess_features.py --gpu_id 0 --dataset multimodal --model resnet101 --question_type action M[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C
-
-Number of questions: 83655
-Number of unique videos: 4183
-preprocess/preprocess_features.py:118: DeprecationWarning: BICUBIC is deprecated and will be removed in Pillow 10 (2023-07-01). Use Resampling.BICUBIC instead.
-  img = np.array(img.resize(size=img_size, resample=Image.BICUBIC) )
-/usr/local/lib/python3.8/dist-packages/torch/nn/functional.py:718: UserWarning: Named tensors and all their associated APIs are an experimental feature and subject to change. Please do not use them for anything important until they are released as stable. (Triggered internally at  /pytorch/c10/core/TensorImpl.h:1156.)
-  return torch.max_pool2d(input, kernel_size, stride, padding, dilation, ceil_mode)
-preprocess/preprocess_features.py:175: DeprecationWarning: `np.int` is a deprecated alias for the builtin `int`. To silence this warning, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
-Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
-  video_ids_dset = fd.create_dataset('ids', shape=(dataset_size,), dtype=np.int)
-1/4183 3.371s (projected finish: 3.92 hours)
-1001/4183 3.275s (projected finish: 2.89 hours)
-2001/4183 3.271s (projected finish: 1.98 hours)
-3001/4183 3.274s (projected finish: 1.07 hours)
-4001/4183 3.265s (projected finish: 0.17 hours)
-root@nia2022_1-1_docker:~/nia2022_1/hcrn# exit
-# 
-
-Script done on 2022-12-19 17:21:37+09:00 [COMMAND_EXIT_CODE="0"]

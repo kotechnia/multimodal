@@ -289,8 +289,6 @@ def setup(args):
     add_maskformer2_config(cfg)
     cfg.merge_from_file(args.config_file)
     cfg.merge_from_list(args.opts)
-    if cfg.DATASETS.EVAL != '':
-        cfg.DATASETS.TEST = cfg.DATASETS.EVAL,
     cfg.freeze()
     default_setup(cfg, args)
     # Setup logger for "mask_former" module
@@ -302,6 +300,12 @@ def main(args):
     cfg = setup(args)
 
     if args.eval_only:
+        
+        if cfg.DATASETS.EVAL != '':
+            cfg.defrost()
+            cfg.DATASETS.TEST = (cfg.DATASETS.EVAL,)
+            cfg.freeze()
+
         model = Trainer.build_model(cfg)
         DetectionCheckpointer(model, save_dir=cfg.OUTPUT_DIR).resume_or_load(
             cfg.MODEL.WEIGHTS, resume=args.resume

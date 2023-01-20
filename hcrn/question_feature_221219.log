@@ -1,33 +1,0 @@
-Script started on 2022-12-19 16:52:46+09:00 [TERM="screen" TTY="/dev/pts/3" COLUMNS="146" LINES="42"]
-# bash
-root@nia2022_1-1_docker:~/nia2022_1/hcrn# sc[K[K[20P(reverse-i-search)`':[Cp': python preprocess/preprocess_features.py --dataset multimodal --model resnext101 --question_type action --image_height 112 --image_width 112 M[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cy': python preprocess/preprocess_features.py --dataset multimodal --model resnext101 --question_type action --image_height 112 [C[1@-M[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ct': python preprocess/preprocess_features.py --dataset multimodal --model resnext101 --question_type action --image_height 112[1@ M[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ch': python preprocess/preprocess_features.py --dataset multimodal --model resnext101 --question_type action --image_height 11[1@2M[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Co': python preprocess/preprocess_features.py --dataset multimodal --model resnext101 --question_type action --image_height 1[1@1M[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cn': python preprocess/preprocess_features.py --dataset multimodal --model resnext101 --question_type action --image_height [C[1@1M[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C ': python preprocess/preprocess_features.py --dataset multimodal --model resnext101 --question_type action --image_height[1@ M[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[59Pvalidate.py --cfg configs/multimodal_qa_action.yml 
-[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cpreprocess/preprocess_questions.py --dataset multimodal --glove_pt data/glove/glove.768d.ko.pkl --question_type action --token_type transformers --mode train --by_video yM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Croot@nia2022_1-1_docker:~/nia2022_1/hcrn# python preprocess/preprocess_questions.py --dataset multimodal --glove_pt data/glove/glove.768d.ko.pkl --[13@question_typeM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C
-
-Loading data
-(83655, 5)
-number of questions: 83655
-Building vocab
-Get answer_token_to_idx, num: 5307
-Get question_token_to_idx
-5006
-Get question_answer_token_to_idx
-5576
-Write into data/multimodal/features/multimodal/action/multimodal_action_vocab.json
-Encoding data
-(66915, 33)
-(66915, 5, 39)
-Load glove from data/glove/glove.768d.ko.pkl
-(5576, 768)
-Writing  data/multimodal/features/multimodal/action/multimodal_action_train_questions.pt
-Encoding data
-(8360, 36)
-(8360, 5, 37)
-Writing  data/multimodal/features/multimodal/action/multimodal_action_val_questions.pt
-Encoding data
-(8360, 31)
-(8360, 5, 37)
-Writing  data/multimodal/features/multimodal/action/multimodal_action_test_questions.pt
-root@nia2022_1-1_docker:~/nia2022_1/hcrn# exit
-# 
-
-Script done on 2022-12-19 17:23:00+09:00 [COMMAND_EXIT_CODE="0"]
