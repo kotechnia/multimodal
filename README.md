@@ -258,6 +258,11 @@ python train.py --cfg configs/multimodal_qa_action_ko.yml
 ```bash
 python validate.py --cfg configs/multimodal_qa_action_ko.yml
 ```
+
+## License
+> The license for this repository is based on the MIT license. 
+If the module has a "LICENSE" file, that license is applied.
+
 <br>
 <details>
     <summary>❏  original github & paper</b></summary>
