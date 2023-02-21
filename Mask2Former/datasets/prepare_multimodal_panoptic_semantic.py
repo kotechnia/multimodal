@@ -94,7 +94,9 @@ def separate_coco_semantic_from_panoptic(panoptic_json, panoptic_root, sem_seg_r
 def split_dataset(root, json_file, split_file, categories):
     root = os.path.join(root, 'annotations')
 
-    if not (os.path.exists(json_file) and os.path.exists(split_file)):
+    if (os.path.exists(json_file) and os.path.exists(split_file)):
+        pass
+    else:
         return None
 
     json_data = json.load(open(json_file))
@@ -126,7 +128,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     assert (args.annotation_path==None and args.split_list==None ) or (args.annotation_path!=None and args.split_list!=None)
-
     dataset_dir = os.path.join(os.getenv("DETECTRON2_DATASETS", "datasets"), "multimodal")
     if args.category_json:
         COCO_CATEGORIES = json.load(open(args.category_json))
