@@ -1,8 +1,10 @@
 # multimodal
 
 ## Index
-- Mask2Former - Panoptic Segmentation model
-- HCRN  - QnA model
+- [Common](#common)
+- [Mask2Former - Panoptic Segmentation model](#mask2former)
+- [HCRN  - QnA model](#hcrn)
+- [LICENSE](#license)
 
 ## Contents
 
@@ -18,7 +20,7 @@ cuDnn 8.2.0
 
 
 ## Common
-> Mask2Former와 HCRN에서 공통의 훈련, 검증, 시험 세트를 생성합니다.
+> Mask2Former와 HCRN에서 공통된 훈련, 검증, 시험 세트를 사용하기 위해 데이터를 분할합니다.
 ```bash
 python prepare.py \
 --video_path data/videos \
@@ -26,11 +28,7 @@ python prepare.py \
 --qna_path data/annotations/QNA_data.json \
 --common_split_list common_split_list.json
 ```
-
-
-
-
-❏ 각 모델 별 설명입니다.
+<br/>
 
 ## Mask2Former
 
@@ -42,33 +40,25 @@ config : configs/multimodal/config_multimodal.yaml
 ```
 📂mask2former
 ├─ 📂configs
-│   ├─ 📂coco
 │   └─ 📂multimodal
 ├─ 📂datasets
-│   ├─ 📂multimodal
-│   │   ├─ 📂annotations
-│   │   │  ├─ 📄categories.json
-│   │   │  ├─ 📄train.json
-│   │   │  ├─ 📄val.json
-│   │   │  └─ 📄test.json
-│   │   ├─ 📂panoptic_train
-│   │   ├─ 📂panoptic_val
-│   │   ├─ 📂panoptic_test
-│   │   ├─ 📂train
-│   │   ├─ 📂val
-│   │   └─ 📂test
-│   └─ 📄prepare_coco_semantic_annos_from_panoptic_annos.py
-├─ 📂demo
-├─ 📂demo_video
-├─ 📂mask2former
-├─ 📂mask2former_video
-├─ 📂tools
+│   └─ 📂multimodal
+│       ├─ 📂annotations
+│       │  ├─ 📄categories.json
+│       │  ├─ 📄train.json
+│       │  ├─ 📄val.json
+│       │  └─ 📄test.json
+│       ├─ 📂panoptic_train
+│       ├─ 📂panoptic_val
+│       ├─ 📂panoptic_test
+│       ├─ 📂train
+│       ├─ 📂val
+│       └─ 📂test
 ├─ 📄README.md
 ├─ 📄LICENSE
 ├─ 📄predict.py
 ├─ 📄requirements.txt
-├─ 📄train_net.py
-└─ 📄train_net_video.py
+└─ 📄train_net.py
 ```
 <br>
 ❏ 사용 라이브러리 및 프로그램입니다. 
@@ -79,60 +69,58 @@ config : configs/multimodal/config_multimodal.yaml
 
 ```
 $ git clone https://github.com/facebookresearch/detectron2.git
-$ cd detectron2
-$ pip install -e .
-$ cd -
+$ pip install -e detectron2
 ```
 
 ```
-$ sed -i s/"int(ann\\['image_id'\\])"/"ann['image_id']"/g 
+$ sed -i s/"int(ann\\['image_id'\\])"/"ann['image_id']"/g detectron2/detectron2/data/datasets/coco_panoptic.py 
 ```
 
 **panopticapi**
 ```
 $ git clone https://github.com/cocodataset/panopticapi.git
-$ cd panopticapi
-$ pip install -e .
-$ cd -
+$ pip install -e panopticapi
 ```
 
 **mask2former**
 ```
 $ cd mask2former
 $ pip install -r requirements.txt
-
-
+$ cd mask2former/modeling/pixel_decoder/ops
+$ sh make.sh
+$ cd -
 ```
+<br/>
+
 ### 데이터 전처리 방법 (예시)
 ```bash
-source prepare_multimodal_dataset.sh \
+$ source prepare_multimodal_dataset.sh \
 ../data/videos/video_frames \
 ../data/annotations/labels \
 ../data/annotations/segmentation_data.json \
 ../data/annotations/categories.json \
-../common_dataset_list.json
+../common_split_list.json
 ```
 
 ### 실행 방법 (예시)
 
 ❏ 훈련 방법입니다.
 ```
-python train_net.py  \
+$ python train_net.py  \
 --config-file configs/multimodal/config_multimodal.yaml \
 --num-gpus 2 \
 SOLVER.IMS_PER_BATCH 2 \
-OUTPUT_DIR ./<output_dir name>
+OUTPUT_DIR ./multimodal
 ```
 
 ❏ 평가 방법입니다.
 ```
-python train_net.py  \
---config-file <output_dir name>/config.yaml
+$ python train_net.py  \
+--config-file multimodal/config.yaml
 --num-gpus 2 \
 --eval-only \
-MODEL.WEIGHTS <output_dir name>/checkpoint_file \
-DATASETS.EVAl <dataset_name>   # multimodal_2022_test_dataset \ 
-OUTPUT_DIR ./<output_dir name>
+MODEL.WEIGHTS multimodal/model_final.pth \
+DATASETS.EVAl multimodal_2022_test_dataset_panoptic 
 ```
 <br>
 <details>
@@ -142,13 +130,13 @@ OUTPUT_DIR ./<output_dir name>
 </details>
 
 ---
----
 
 ## HCRN
 
 
 model : HCRN  
-config : configs/multimodal_qa_action.yml
+config (한글) : configs/multimodal_qa_action_ko.yml  
+config (영어) : configs/multimodal_qa_action_en.yml
 
 
 ❏ HCRN의 구조는 다음과 같습니다.
@@ -180,8 +168,14 @@ config : configs/multimodal_qa_action.yml
 
 ### 데이터 전처리 방법 (예시)
 
-❏ 비디오 전처리 방법입니다.
+
+**한글**  
 ```bash
+$ python preprocess/make_datasets.py \
+--annot_json ../data/annotations/QNA_data.json \
+--split_list ../common_split_list.json \
+--lang ko
+
 $ python preprocess/preprocess_features.py \
 --gpu_id 0 \
 --dataset multimodal \
@@ -196,27 +190,8 @@ $ python preprocess/preprocess_features.py \
 --image_height 112 \
 --image_width 112 \
 --question_type action
-```
 
-❏ annotation 전처리 방법입니다.
-<br>
-
-
-**한글**
-```bash
-# config file => train.word_dim: 768
-# huggingface의 transformers 모듈에 맞는 tokenizer
-# => default: 'monologg/koelectra-base-v3-discriminator' 
-# tokenizer 변경 시, 그에 맞게 glove_pt도 변경 필요
-```
-
-```bash
-$ python preprocess/make_datasets.py \
---annot_json ../data/annotations/QNA_data.json \
---split_list ../common_split_list.json \
---lang ko
-
-python preprocess/preprocess_questions.py \
+$ python preprocess/preprocess_questions.py \
 --dataset multimodal \
 --glove_pt data/glove/glove.768d.ko.pkl \
 --question_type action \
@@ -224,9 +199,10 @@ python preprocess/preprocess_questions.py \
 --by_video y \
 --mode train
 ```
+<br/>
 
 
-**영문**
+**영어**  
 ```bash
 # config file => train.word_dim: 300
 import nltk
@@ -238,6 +214,21 @@ $ python preprocess/make_datasets.py \
 --split_list ../common_split_list.json \
 --lang en
 
+$ python preprocess/preprocess_features.py \
+--gpu_id 0 \
+--dataset multimodal \
+--video_path ../data/videos \
+--model resnet101 \
+--question_type action
+
+$ python preprocess/preprocess_features.py \
+--dataset multimodal \
+--video_path ../data/videos \
+--model resnext101 \
+--image_height 112 \
+--image_width 112 \
+--question_type action
+
 $ python preprocess/preprocess_questions.py \
 --dataset multimodal \
 --glove_pt data/glove/glove.840.300d.pkl \
@@ -246,22 +237,33 @@ $ python preprocess/preprocess_questions.py \
 --by_video y \
 --mode train
 ```
+<br/>
 
 ### 실행 방법 (예시)
-
+**한글**  
 ❏ 훈련 방법입니다.
 ```bash
-python train.py --cfg configs/multimodal_qa_action_ko.yml
+$ python train.py --cfg configs/multimodal_qa_action_ko.yml
 ```
 
 ❏ 평가 방법입니다.
 ```bash
-python validate.py --cfg configs/multimodal_qa_action_ko.yml
+$ python validate.py --cfg configs/multimodal_qa_action_ko.yml
+```
+<br/>
+
+**영어**  
+❏ 훈련 방법입니다.
+```bash
+$ python train.py --cfg configs/multimodal_qa_action_en.yml
 ```
 
-## License
-> The license for this repository is based on the MIT license.   
-> If the module has a "LICENSE" file, that license is applied.
+❏ 평가 방법입니다.
+```bash
+$ python validate.py --cfg configs/multimodal_qa_action_en.yml
+```
+
+
 
 <br>
 <details>
@@ -270,3 +272,8 @@ python validate.py --cfg configs/multimodal_qa_action_ko.yml
     <p>paper : <a href='https://arxiv.org/pdf/2002.10698.pdf'>arXiv:2002.10698</a>
 </details>
 
+---
+
+## License
+> The license for this repository is based on the MIT license.   
+> If the module has a "LICENSE" file, that license is applied.
