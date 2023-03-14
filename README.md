@@ -20,6 +20,11 @@ cuDnn 8.2.0
 
 
 ## Common
+```bash
+pip install -r requirements.txt
+```
+<br/>
+
 > Mask2Former와 HCRN에서 공통된 훈련, 검증, 시험 세트를 사용하기 위해 데이터를 분할합니다.
 ```bash
 python prepare.py \
@@ -28,6 +33,7 @@ python prepare.py \
 --qna_path data/annotations/QNA_data.json \
 --common_split_list common_split_list.json
 ```
+
 <br/>
 
 ## Mask2Former
@@ -36,7 +42,7 @@ model : Mask2Former
 config : configs/multimodal/config_multimodal.yaml
 
 
-❏ maks2former의 구조는 다음과 같습니다.
+❏ mask2former의 구조는 다음과 같습니다.
 ```
 📂mask2former
 ├─ 📂configs
@@ -68,24 +74,18 @@ config : configs/multimodal/config_multimodal.yaml
 **detectron2**
 
 ```
-$ git clone https://github.com/facebookresearch/detectron2.git
+$ git clone https://github.com/facebookresearch/detectron2.git --single-branch -b v0.6
 $ pip install -e detectron2
 ```
 
 ```
-$ sed -i s/"int(ann\\['image_id'\\])"/"ann['image_id']"/g detectron2/detectron2/data/datasets/coco_panoptic.py 
+$ sed -i s/'int(ann\["image_id"\])'/'ann["image_id"]'/g detectron2/detectron2/data/datasets/coco_panoptic.py 
 ```
 
-**panopticapi**
-```
-$ git clone https://github.com/cocodataset/panopticapi.git
-$ pip install -e panopticapi
-```
 
 **mask2former**
 ```
-$ cd mask2former
-$ pip install -r requirements.txt
+$ cd Mask2former
 $ cd mask2former/modeling/pixel_decoder/ops
 $ sh make.sh
 $ cd -
@@ -276,4 +276,4 @@ $ python validate.py --cfg configs/multimodal_qa_action_en.yml
 
 ## License
 > The license for this repository is based on the MIT license.   
-> If the module has a "LICENSE" file, that license is applied.
+> If the module has a "LICENSE" file, that license is applied
